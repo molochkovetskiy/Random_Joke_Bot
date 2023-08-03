@@ -2,6 +2,7 @@
 from telebot import types # для указание типов
 import telebot
 from request_from_api import get_random_joke
+from database_methods import add_to_favorites_method
 
 bot = telebot.TeleBot('6634527906:AAFBFacHaNYoUEdvVPocn7GCry7wkZ_805E')
 global joke_str
@@ -20,8 +21,8 @@ def func(message):
 
         # bot.send_message(message.chat.id, get_random_joke())
 
-        button_bar = types.InlineKeyboardButton('Bar', callback_data='bar')
-        keyboard = types.InlineKeyboardMarkup()
+        button_bar = types.InlineKeyboardButton('Bar', callback_data='button_bar')
+        keyboard = types.InlineKeyboardMarkup()#.add(button_bar)
         keyboard.add(button_bar)
 
         global joke_str
@@ -39,10 +40,9 @@ def func(message):
     else:
         bot.send_message(message.chat.id, text="I dont understand You...")
 
-@bot.callback_query_handler(func=lambda call: True)
+@bot.callback_query_handler(func=lambda c: c.data == 'button_bar')
 def add_to_favorites(call: types.CallbackQuery):
-    if call.data == "bar":
-        add_to_favorites(joke_str)
+    add_to_favorites_method(joke_str)
 
 # keep_alive()#запускаем flask-сервер в отдельном потоке. Подробнее ниже...
 bot.polling(non_stop=True, interval=0) #запуск бота

@@ -26,9 +26,20 @@ def manage_connection(query, type) :
             connection.close() #need to specificaly closed the connection
             
             
-def add_to_favorites(joke):
+def add_to_favorites_method(joke):
     query = f"""
             INSERT INTO favorite_jokes (joke_text)
-            VALUES ({joke})
+            VALUES ('{joke}')
             """
     manage_connection(query, "insert")
+
+def delete_from_favorites_method(joke):
+    query = f'''
+            DELETE FROM menu_items 
+            where item_name = "{joke}"
+            '''
+    manage_connection(query, "delete")
+
+
+if __name__ == '__main__':
+    add_to_favorites_method("test joke 2")
