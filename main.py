@@ -1,25 +1,33 @@
-import os
-from background import keep_alive #импорт функции для поддержки работоспособности
-import pip
-pip.main(['install', 'pytelegrambotapi'])
+# from background import keep_alive #импорт функции для поддержки работоспособности
+from telebot import types # для указание типов
 import telebot
-import time
-import requests
+from request_from_api import get_random_joke
 
-bot = telebot.TeleBot(os.environ['joke_bot_token'])
+bot = telebot.TeleBot('6634527906:AAFBFacHaNYoUEdvVPocn7GCry7wkZ_805E')
 
+@bot.message_handler(commands=['start'])
+def start(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    btn1 = types.KeyboardButton("Random joke")
+    btn2 = types.KeyboardButton("Favorites")
+    markup.add(btn1, btn2)
+    bot.send_message(message.chat.id, text=f"Hi, {message.from_user.first_name}! I can give you a random joke", reply_markup=markup)
+    
 @bot.message_handler(content_types=['text'])
-def get_text_message(message):
-  def get_random_joke(url):
-    response = requests.get(url)
-    if response.status_code == 200:
-        info = response.json()
-        joke = info['joke']
-    return joke
-  api = "https://v2.jokeapi.dev/joke/Any?type=single"
-  joke_str = get_random_joke(api)
-  bot.send_message(message.from_user.id,joke_str)
-# echo-функция, которая отвечает на любое текстовое сообщение таким же текстом   
+def func(message):
+    btn1 = types.KeyboardButton("Random joke")
+    btn2 = types.KeyboardButton("Favorites")
+    if(message.text == "Random joke"):
+        bot.send_message(message.chat.id, get_random_joke())
+    elif(message.text == "Favorites"):
+        pass
+        # markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        # back = types.KeyboardButton("Вернуться в главное меню")
+        # markup.add(btn1, btn2, back)
+        # bot.send_message(message.chat.id, text="Задай мне вопрос", reply_markup=markup)
 
-keep_alive()#запускаем flask-сервер в отдельном потоке. Подробнее ниже...
+    else:
+        bot.send_message(message.chat.id, text="I dont understand You...")
+
+# keep_alive()#запускаем flask-сервер в отдельном потоке. Подробнее ниже...
 bot.polling(non_stop=True, interval=0) #запуск бота
