@@ -2,7 +2,7 @@
 from telebot import types # для указание типов
 import telebot
 from request_from_api import get_random_joke
-from database_methods import add_to_favorites_method
+from database_methods import add_to_favorites_method, get_favorites_method
 
 bot = telebot.TeleBot('6634527906:AAFBFacHaNYoUEdvVPocn7GCry7wkZ_805E')
 global joke_str
@@ -31,7 +31,13 @@ def func(message):
 
 
     elif(message.text == "Favorites"):
-        pass
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        btn1 = types.KeyboardButton("Random joke")
+        btn2 = types.KeyboardButton("Favorites")
+        markup.add(btn1, btn2)
+        favorite_jokes = get_favorites_method()
+        for joke in favorite_jokes:
+            bot.send_message(message.chat.id, joke, reply_markup=markup)
         # markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         # back = types.KeyboardButton("Вернуться в главное меню")
         # markup.add(btn1, btn2, back)
