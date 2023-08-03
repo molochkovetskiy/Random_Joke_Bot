@@ -4,7 +4,8 @@ import telebot
 from request_from_api import get_random_joke
 
 bot = telebot.TeleBot('6634527906:AAFBFacHaNYoUEdvVPocn7GCry7wkZ_805E')
-
+global joke_str
+joke_str = ''
 @bot.message_handler(commands=['start'])
 def start(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -23,7 +24,9 @@ def func(message):
         keyboard = types.InlineKeyboardMarkup()
         keyboard.add(button_bar)
 
-        bot.send_message(message.chat.id, get_random_joke(), reply_markup=keyboard)
+        global joke_str
+        joke_str = get_random_joke()
+        bot.send_message(message.chat.id, joke_str, reply_markup=keyboard)
 
 
     elif(message.text == "Favorites"):
@@ -39,7 +42,7 @@ def func(message):
 @bot.callback_query_handler(func=lambda call: True)
 def add_to_favorites(call: types.CallbackQuery):
     if call.data == "bar":
-        print("CHECK")
+        add_to_favorites(joke_str)
 
 # keep_alive()#запускаем flask-сервер в отдельном потоке. Подробнее ниже...
 bot.polling(non_stop=True, interval=0) #запуск бота
