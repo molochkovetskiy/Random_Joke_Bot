@@ -15,10 +15,17 @@ def start(message):
     
 @bot.message_handler(content_types=['text'])
 def func(message):
-    btn1 = types.KeyboardButton("Random joke")
-    btn2 = types.KeyboardButton("Favorites")
     if(message.text == "Random joke"):
-        bot.send_message(message.chat.id, get_random_joke())
+
+        # bot.send_message(message.chat.id, get_random_joke())
+
+        button_bar = types.InlineKeyboardButton('Bar', callback_data='bar')
+        keyboard = types.InlineKeyboardMarkup()
+        keyboard.add(button_bar)
+
+        bot.send_message(message.chat.id, get_random_joke(), reply_markup=keyboard)
+
+
     elif(message.text == "Favorites"):
         pass
         # markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -28,6 +35,11 @@ def func(message):
 
     else:
         bot.send_message(message.chat.id, text="I dont understand You...")
+
+@bot.callback_query_handler(func=lambda call: True)
+def add_to_favorites(call: types.CallbackQuery):
+    if call.data == "bar":
+        print("CHECK")
 
 # keep_alive()#запускаем flask-сервер в отдельном потоке. Подробнее ниже...
 bot.polling(non_stop=True, interval=0) #запуск бота
