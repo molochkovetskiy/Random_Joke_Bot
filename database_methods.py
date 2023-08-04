@@ -40,11 +40,13 @@ def add_to_favorites_method(joke):
             """
     manage_connection(query, "insert")
 
-def delete_from_favorites_method(joke):
+def delete_from_favorites_method():
+    # joke = joke.replace("'", "''")
     query = f'''
-            DELETE FROM favorite_jokes 
-            where joke_text = "{joke}"
+            DELETE FROM favorite_jokes
+            WHERE ID = (SELECT MAX(id) from favorite_jokes)
             '''
+            #  where joke_text = "{joke}"
     manage_connection(query, "delete")
     
 def get_favorites_method():
