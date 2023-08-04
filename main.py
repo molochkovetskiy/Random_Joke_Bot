@@ -3,8 +3,13 @@ from telebot import types # для указание типов
 import telebot
 from request_from_api import get_random_joke
 from database_methods import add_to_favorites_method, get_favorites_method
+from dotenv import load_dotenv
+import os
 
-bot = telebot.TeleBot('6634527906:AAFBFacHaNYoUEdvVPocn7GCry7wkZ_805E')
+
+load_dotenv()
+bot = telebot.TeleBot(os.getenv('TOKEN'))
+
 global joke_str
 joke_str = ''
 @bot.message_handler(commands=['start'])
