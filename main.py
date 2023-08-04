@@ -27,7 +27,7 @@ def func(message):
 
         # bot.send_message(message.chat.id, get_random_joke())
 
-        button_bar_add = types.InlineKeyboardButton('Add to favorites', callback_data='button_bar')
+        button_bar_add = types.InlineKeyboardButton('Add to favorites', callback_data='button_bar_add')
         keyboard = types.InlineKeyboardMarkup().add(button_bar_add)
 
         global joke_str
