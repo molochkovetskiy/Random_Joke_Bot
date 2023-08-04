@@ -8,7 +8,8 @@ import os
 
 
 load_dotenv()
-bot = telebot.TeleBot(os.getenv('TOKEN'))
+token = os.getenv('TOKEN')
+bot = telebot.TeleBot(token)
 
 global joke_str
 joke_str = ''

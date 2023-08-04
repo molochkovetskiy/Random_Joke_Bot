@@ -1,13 +1,19 @@
 import psycopg2
+from dotenv import load_dotenv
+import os
+
+
 
 # is to manage the database connection
 def manage_connection(query, type) :
+    load_dotenv()
+    db_pass = os.getenv('DB_PASS')
     connection = None
     try : 
         connection = psycopg2.connect(
             database="railway", #your database name
             user='postgres',
-            password='zRC4WwSp8qqgzlrXc3dm',
+            password=db_pass
             host='containers-us-west-180.railway.app', 
             port='5575'
         )
