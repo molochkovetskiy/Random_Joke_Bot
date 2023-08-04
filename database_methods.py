@@ -13,7 +13,7 @@ def manage_connection(query, type) :
         connection = psycopg2.connect(
             database="railway", #your database name
             user='postgres',
-            password=db_pass
+            password=db_pass,
             host='containers-us-west-180.railway.app', 
             port='5575'
         )
@@ -33,6 +33,7 @@ def manage_connection(query, type) :
             
             
 def add_to_favorites_method(joke):
+    joke = joke.replace("'", "''")
     query = f"""
             INSERT INTO favorite_jokes (joke_text)
             VALUES ('{joke}')
