@@ -31,34 +31,24 @@ def manage_connection(query, type) :
             connection.close() #need to specificaly closed the connection
             
             
-def add_to_favorites_method(user_id, joke):
-    joke = joke.replace("'", "''")
+def add_to_favorites_method(user_id, joke_id):
     query = f"""
-            INSERT INTO favorite_jokes (user_id, joke_text)
-            VALUES ({user_id}, '{joke}')
+            INSERT INTO favorite_jokes (user_id, joke_id)
+            VALUES ({user_id}, '{joke_id}')
             """
     manage_connection(query, "insert")
 
-def delete_from_favorites_method():
-    # joke = joke.replace("'", "''")
+def delete_from_favorites_method(user_id, joke_id):
     query = f'''
             DELETE FROM favorite_jokes
-            WHERE ID = (SELECT MAX(id) from favorite_jokes)
+            WHERE user_id = {user_id} AND joke_id = {joke_id}
             '''
-            #  where joke_text = "{joke}"
     manage_connection(query, "delete")
     
 def get_favorites_method(user_id):
     query = f'''
-            SELECT joke_text FROM favorite_jokes
+            SELECT joke_id FROM favorite_jokes
             WHERE user_id = {user_id}
             '''
-    # row_fav_jokes = manage_connection(query, 'select')
-    fav_jokes = [row[0] for row in manage_connection(query, 'select')]
-    return fav_jokes
-    # return fav_jokes
-    # yield somehow each element and messege it???
-
-
-if __name__ == '__main__':
-    add_to_favorites_method("test joke 2")
+    fav_jokes_id = [row[0] for row in manage_connection(query, 'select')]
+    return fav_jokes_id
