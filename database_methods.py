@@ -1,7 +1,6 @@
-import psycopg2
 from dotenv import load_dotenv
+import psycopg2
 import os
-
 
 
 # is to manage the database connection
@@ -49,9 +48,10 @@ def delete_from_favorites_method():
             #  where joke_text = "{joke}"
     manage_connection(query, "delete")
     
-def get_favorites_method():
+def get_favorites_method(user_id):
     query = f'''
             SELECT joke_text FROM favorite_jokes
+            WHERE user_id = {user_id}
             '''
     # row_fav_jokes = manage_connection(query, 'select')
     fav_jokes = [row[0] for row in manage_connection(query, 'select')]

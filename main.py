@@ -54,7 +54,10 @@ def func(message):
         btn1 = types.KeyboardButton("Random joke")
         btn2 = types.KeyboardButton("Favorites")
         markup.add(btn1, btn2)
-        favorite_jokes = get_favorites_method()
+
+        id_user = message.chat.id
+
+        favorite_jokes = get_favorites_method(id_user)
         for joke in favorite_jokes:
             button_bar_del = types.InlineKeyboardButton('Delete from favorites', callback_data='button_bar_del')
             fav_keyboard = types.InlineKeyboardMarkup().add(button_bar_del)
