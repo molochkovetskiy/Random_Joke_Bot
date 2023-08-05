@@ -3,7 +3,7 @@ import psycopg2
 import os
 
 
-# is to manage the database connection
+# To manage the database connection
 def manage_connection(query, type) :
     load_dotenv()
     db_pass = os.getenv('DB_PASS')
@@ -29,7 +29,7 @@ def manage_connection(query, type) :
     finally :
         if connection != None:
             connection.close() #need to specificaly closed the connection
-            
+
             
 def add_to_favorites_method(user_id, joke_id):
     query = f"""
