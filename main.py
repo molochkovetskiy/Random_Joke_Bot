@@ -73,9 +73,8 @@ def on_callback_query(call):
     joke_str = jokes_dict.get(button_data)
 
     if command == "add_to_favorites":
-        # add_to_favorites_method(joke_id)
-        print("I'm here")
-        print(joke_str)
+        add_to_favorites_method(id_user, joke_str)
+        # print(joke_str)
 
     elif command == "some_other_command":
         pass

@@ -32,11 +32,11 @@ def manage_connection(query, type) :
             connection.close() #need to specificaly closed the connection
             
             
-def add_to_favorites_method(joke):
+def add_to_favorites_method(user_id, joke):
     joke = joke.replace("'", "''")
     query = f"""
-            INSERT INTO favorite_jokes (joke_text)
-            VALUES ('{joke}')
+            INSERT INTO favorite_jokes (user_id, joke_text)
+            VALUES ({user_id}, '{joke}')
             """
     manage_connection(query, "insert")
 
