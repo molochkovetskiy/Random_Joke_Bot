@@ -1,7 +1,7 @@
 import telebot as telegram_bot
 from telebot import types as telegram_types
 from request_from_api import get_random_joke_id, get_specific_joke
-from database_methods import add_to_favorites_method, get_favorites_method, delete_from_favorites_method
+from database_methods import add_to_favorites_method, get_favorites_method, delete_from_favorites_method, is_not_in_favorites
 from dotenv import load_dotenv
 import os
 
@@ -37,12 +37,16 @@ def handle_random_joke(message):
     # Command to add a joke to favorites
     command = "add_to_favorites"
 
-     # Get a random joke ID and joke text
-    joke_id = get_random_joke_id()
-    joke_text = get_specific_joke(joke_id)
-
     # Get the user ID
     user_id = message.chat.id
+    
+    # Get a random joke ID and joke text if not in favorites
+    while True:
+        joke_id = get_random_joke_id()
+        if is_not_in_favorites(joke_id, user_id):
+            break
+    joke_text = get_specific_joke(joke_id)
+
 
     # Create the callback data for the inline keyboard
     callback_data = f"{command}#{user_id}#{joke_id}"
