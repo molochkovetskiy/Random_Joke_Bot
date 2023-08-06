@@ -1,7 +1,7 @@
 import requests
 from typing import Optional
 
-JOKE_API_BASE_URL = "https://v2.jokeapi.dev/joke/Any?"
+JOKE_API_BASE_URL = "https://v2.jokeapi.dev/joke/Any?blacklistFlags=racist&type=single"
 
 
 def fetch_joke(api_url: str, data_key: str) -> Optional[str]:
@@ -14,13 +14,13 @@ def fetch_joke(api_url: str, data_key: str) -> Optional[str]:
 
 def get_random_joke() -> Optional[str]:
     """ Fetches a random joke from the JokeAPI. """
-    return fetch_joke(f"{JOKE_API_BASE_URL}type=single", 'joke')
+    return fetch_joke(f"{JOKE_API_BASE_URL}", 'joke')
 
 def get_random_joke_id() -> Optional[str]:
     """ Fetches a random joke ID from the JokeAPI. """
-    return fetch_joke(f"{JOKE_API_BASE_URL}type=single", 'id')
+    return fetch_joke(f"{JOKE_API_BASE_URL}", 'id')
 
 def get_specific_joke(joke_id: int) -> Optional[str]:
     """ Fetches a specific joke from the JokeAPI based on the joke_id. """
-    specific_joke_api = f"{JOKE_API_BASE_URL}idRange={joke_id}"
+    specific_joke_api = f"{JOKE_API_BASE_URL}&idRange={joke_id}"
     return fetch_joke(specific_joke_api, 'joke')
